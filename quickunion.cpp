@@ -39,6 +39,7 @@ class QuickUnion {
 
 QuickUnion::~QuickUnion(void){
   delete graph;
+  delete[] parents;
 }
 
 /* WeightedQuickUnion::WeightedQuickUnion(int V, int E){ */
@@ -74,7 +75,6 @@ bool QuickUnion::isCycle(){
     }
     Union(x, y);
   }
-  delete[] parents;
   return 0;
 }
 
