@@ -37,6 +37,7 @@ class WeightedQuickUnion {
   public:
     int find(int i);
     void Union(int x, int y );
+    void UnionEdges();
     int components;
     bool isCycle();
     ~WeightedQuickUnion();
@@ -77,6 +78,17 @@ void WeightedQuickUnion::Union(int x, int y ){
   components--;
 }
 
+void WeightedQuickUnion::UnionEdges(){
+  for (int i = 0; i < graph->E; ++i) {
+    int x  = find(graph->edge[i].src);
+    int y  = find(graph->edge[i].dest);
+    if (x == y) {
+      continue;
+    }
+    Union(x, y);
+  }
+}
+
 bool WeightedQuickUnion::isCycle(){
   for (int i = 0; i < graph->E; ++i) {
     int x  = find(graph->edge[i].src);
@@ -99,6 +111,7 @@ WeightedQuickUnion* createWeightedQuickUnion(Graph* graph){
        uf->subsets[v].parent = v; 
        uf->subsets[v].rank = 1; 
   } 
+  uf->UnionEdges();
   return uf;
 }
 
