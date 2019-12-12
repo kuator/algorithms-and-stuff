@@ -78,7 +78,7 @@ bool QuickUnion::isCycle(){
   return 0;
 }
 
-QuickUnion* createWeightedQuickUnion(int V, int E){
+QuickUnion* createQuickUnion(int V, int E){
   QuickUnion* uf = new QuickUnion;
   uf->graph = createGraph(V, E);
   uf->parents = new int[uf->graph->V];
@@ -88,7 +88,7 @@ QuickUnion* createWeightedQuickUnion(int V, int E){
 
 int main()
 {
-  QuickUnion* uf = createWeightedQuickUnion(3,3);
+  QuickUnion* uf = createQuickUnion(3,3);
 
   uf->graph->edge[0].src = 0;
   uf->graph->edge[0].dest = 1;
