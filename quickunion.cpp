@@ -78,9 +78,9 @@ bool QuickUnion::isCycle(){
   return 0;
 }
 
-QuickUnion* createQuickUnion(int V, int E){
+QuickUnion* createQuickUnion(Graph* graph){
   QuickUnion* uf = new QuickUnion;
-  uf->graph = createGraph(V, E);
+  uf->graph = graph;
   uf->parents = new int[uf->graph->V];
   std::fill(uf->parents, uf->parents + uf->graph->V, -1);
   return uf;
@@ -88,14 +88,15 @@ QuickUnion* createQuickUnion(int V, int E){
 
 int main()
 {
-  QuickUnion* uf = createQuickUnion(3,3);
+  Graph* graph = createGraph(3,3);
+  graph->edge[0].src = 0;
+  graph->edge[0].dest = 1;
+  graph->edge[1].src = 1;
+  graph->edge[1].dest = 2;
+  graph->edge[2].src = 0;
+  graph->edge[2].dest = 2;
 
-  uf->graph->edge[0].src = 0;
-  uf->graph->edge[0].dest = 1;
-  uf->graph->edge[1].src = 1;
-  uf->graph->edge[1].dest = 2;
-  uf->graph->edge[2].src = 0;
-  uf->graph->edge[2].dest = 2;
+  QuickUnion* uf = createQuickUnion(graph);
 
   if (uf->isCycle()) {
     std::cout << "cycle detected" << std::endl;
