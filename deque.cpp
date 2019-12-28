@@ -4,6 +4,7 @@ class Node{
   public:
     int data;
     Node* next;
+    Node* prev;
 };
 
 class Deque{
@@ -34,6 +35,7 @@ Node* Deque::createNode(int data){
   Node* node = new Node();
   node->data = data;
   node->next = NULL;
+  node->prev = NULL;
   return node;
 }
 
@@ -49,6 +51,7 @@ void Deque::push_back(int data){
   }
   Node* node = createNode(data);
   rear->next = node;
+  node->prev = rear;
   rear = node;
   length++;
 }
@@ -61,12 +64,13 @@ void Deque::push_front(int data){
   }
   Node* node = createNode(data);
   node->next = front;
+  front->prev = node;
   front = node;
   length++;
 }
 
 int Deque::pop_back(){
-  if(front == NULL){return INT_MIN;}
+  if(front == NULL){throw std::string("error");}
 
   if(front->next == NULL){
     int data = front->data;
@@ -77,10 +81,7 @@ int Deque::pop_back(){
     return data;
   }
 
-  Node* tmp = front;
-  while(tmp->next != rear){
-    tmp = tmp->next;
-  }
+  Node* tmp = rear->prev;
   int data = rear->data;
   tmp->next = NULL;
   delete rear;
@@ -90,7 +91,7 @@ int Deque::pop_back(){
 }
 
 int Deque::pop_front(){
-  if(front == NULL){return INT_MIN;}
+  if(front == NULL){throw std::string("error");}
 
   if(front->next==NULL){
     int data = front->data;
@@ -104,19 +105,20 @@ int Deque::pop_front(){
   Node* tmp = front;
   int data = front->data;
   front = front->next;
+  front->prev=NULL;
   delete tmp;
   length--;
   return data;
 }
 
 int Deque::frontValue(){
-  if (front == NULL) return INT_MIN;
+  if(front == NULL){throw std::string("error");}
   int data = front->data;
   return data;
 }
 
 int Deque::backValue(){
-  if (front == NULL) return INT_MIN;
+  if(front == NULL){throw std::string("error");}
   int data = rear->data;
   return data;
 }
@@ -160,16 +162,32 @@ int main(int argc, char *argv[])
       std::cout << "ok" << std::endl;
     }
     else if(str == "pop_front"){
-      std::cout << deque->pop_front() << std::endl;
+      try {
+        std::cout << deque->pop_front() << std::endl;
+      }catch(std::string error) {
+        std::cout << "error" << std::endl;
+      }
     }
     else if(str == "pop_back"){
-      std::cout << deque->pop_back() << std::endl;
+      try {
+        std::cout << deque->pop_back() << std::endl;
+      } catch(std::string error) {
+        std::cout << "error" << std::endl;
+      }
     }
     else if(str == "front"){
-      std::cout << deque->frontValue() << std::endl;
+      try {
+        std::cout << deque->frontValue() << std::endl;
+      } catch(std::string error) {
+        std::cout << "error" << std::endl;
+      }
     }
     else if(str == "back"){
-      std::cout << deque->backValue() << std::endl;
+      try {
+        std::cout << deque->backValue() << std::endl;
+      } catch(std::string error) {
+        std::cout << "error" << std::endl;
+      }
     }
     else if(str == "size"){
       std::cout << deque->size() << std::endl;
