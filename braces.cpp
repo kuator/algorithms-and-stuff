@@ -107,8 +107,8 @@ int main(int argc, char *argv[])
 
   if(stack->root != NULL)
     std::cout << "no" << std::endl;
-
-  std::cout << "yes" << std::endl;
+  else
+    std::cout << "yes" << std::endl;
   delete stack;
   return 0;
 }
