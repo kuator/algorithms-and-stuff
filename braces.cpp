@@ -83,7 +83,6 @@ int main(int argc, char *argv[])
 {
   std::string str;
   std::cin >> str;
-  bool correct = true;
   Stack* stack = new Stack();
   stack->root = NULL;
   for(char& c : str) {
@@ -108,8 +107,8 @@ int main(int argc, char *argv[])
 
   if(stack->root != NULL)
     std::cout << "no" << std::endl;
-  else if(correct)
-    std::cout << "yes" << std::endl;
+
+  std::cout << "yes" << std::endl;
   delete stack;
   return 0;
 }
