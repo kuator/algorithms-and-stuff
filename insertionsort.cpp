@@ -1,15 +1,26 @@
 #include <bits/stdc++.h>
 
+/* void insertionSort(int arr[],int n) */
+/* { */
+/*     int j=0; */
+/*     for (int i = 1; i < n; ++i) { */
+/*         int key = arr[i]; */
+/*         j=i-1; */
+/*         while(j>=0 && arr[j]>key) { */
+/*             arr[j+1] = arr[j]; */
+/*             arr[j]=key; */
+/*             j--; */
+/*         } */
+/*     } */
+/* } */
+
 void insertionSort(int arr[],int n)
 {
-    int j=0;
     for (int i = 1; i < n; ++i) {
         int key = arr[i];
-        j=i-1;
-        while(j>=0 && arr[j]>key) {
-            arr[j+1] = arr[j];
-            arr[j]=key;
-            j--;
+        for (int j=i; j>0 && arr[j-1]>key;j--) {
+          arr[j] = arr[j-1];
+          arr[j-1]=key;
         }
     }
 }
