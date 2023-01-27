@@ -14,7 +14,5 @@ int birthdayCakeCandles(vector<int> candles) {
 
 int main (int argc, char *argv[])
 {
-  vector<long>first = {1000000001, 1000000002, 1000000003, 1000000004, 1000000005};
-  std::cout << aVeryBigSum(first) << std::endl;
   return 0;
 }
