@@ -72,17 +72,4 @@ int main(int argc, char *argv[]) {
       std::cout << "bye" << std::endl;
   }
   return 0; 
-  /* push 3 */
-  /* push 14 */
-  /* size */
-  /* clear */
-  /* push 1 */
-  /* back */
-  /* push 2 */
-  /* back */
-  /* pop */
-  /* size */
-  /* pop */
-  /* size */
-  /* exit */
 }
