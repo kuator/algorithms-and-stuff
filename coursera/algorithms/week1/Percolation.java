@@ -13,6 +13,9 @@ public class Percolation {
       for (int j = 0; j < this.nodes.length; j++) 
         for (int i = 0; i < this.nodes.length; i++) 
           nodes[j][i] = -1;
+      // for (int j = 0; j < this.sizes.length; j++) 
+      //   for (int i = 0; i < this.sizes.length; i++) 
+      //     sizes[j][i] = 0;
       this.size = n;
     }
 
@@ -21,7 +24,7 @@ public class Percolation {
         return false;
       if (y < 0 || y >= size) 
         return false;
-      System.out.println("valid j, i: " + y + "," + x);
+      // System.out.println("valid j, i: " + y + "," + x);
       return true;
     }
 
@@ -33,19 +36,24 @@ public class Percolation {
       int x1 = firstNodePosition%this.size;
       int y2 = secondNodePosition/this.size;
       int x2 = secondNodePosition%this.size;
-      int firstSize = sizes[y1][x1];
-      int secondSize = sizes[y2][x2];
+      // parents coordinates
       int firstParent = findParent(firstNodePosition);
       int secondParent = findParent(secondNodePosition);
+      y1 = firstParent/this.size;
+      x1 = firstParent%this.size;
+      y2 = secondParent/this.size;
+      x2 = secondParent%this.size;
+      int firstSize = sizes[y1][x1];
+      int secondSize = sizes[y2][x2];
       if (firstSize <= secondSize) {
         nodes[y1][x1] = secondParent;
-        sizes[y1][x1] +=secondSize;
+        sizes[y1][x1] += secondSize;
         sizes[y2][x2] = 0;
       }
       if (firstSize > secondSize) {
         nodes[y2][x2] = firstParent;
-        sizes[y1][x1] +=secondSize;
-        sizes[y2][x2] = 0;
+        sizes[y2][x2] += firstSize;
+        sizes[y1][x1] = 0;
       }
     }
 
@@ -59,6 +67,7 @@ public class Percolation {
       int y = position/this.size;
       int x = position%this.size;
       this.nodes[y][x] = position;
+      this.sizes[y][x] = 1;
       
       Vector<Integer> openNodes = this.findOpenNeighbours(position);
       // for (int openNode : openNodes) 
@@ -71,27 +80,35 @@ public class Percolation {
     public Vector<Integer> findOpenNeighbours(int position){
       int y = position/this.size;
       int x = position%this.size;
-      System.out.println("Position: " + position/size + "," + position%size);
+      int [][] neighbours = {
+        {y-1, x}, {y, x-1}, {y, x+1}, {y+1, x}
+      };
+      // System.out.println("Position: " + position/size + "," + position%size);
       Vector<Integer> openNodes = new Vector<Integer>();
 
-      System.out.println("y,x: " + y + "," + x);
-      for (int j = y-1; j <= y+1; j++) {
-        for (int i = x-1; i <= x+1; i++) {
-          // System.out.println("j,i: " + j + "," + i);
-        }
-      }
-
-      for (int j = y-1; j <= y+1; j++) {
-        for (int i = x-1; i <= x+1; i++) {
-          // System.out.println("j,i: " + j + "," + i);
-          if (isValidNode(j, i) ){
-            if (nodes[j][i]!=-1) {
-              openNodes.add(j*this.size + i);
-              System.out.println("Open: " + y + " " + x);
-            }
+      // System.out.println("y,x: " + y + "," + x);
+      for (int j = 0; j < neighbours.length; j++) {
+        int neightbour_y = neighbours[j][0];
+        int neightbour_x = neighbours[j][1];
+        if (isValidNode(neightbour_y, neightbour_x) ){
+          if (nodes[neightbour_y][neightbour_x]!=-1) {
+            openNodes.add(neightbour_y*this.size + neightbour_x);
+            // System.out.println("Open: " + y + " " + x);
           }
         }
       }
+
+      // for (int j = y-1; j <= y+1; j++) {
+      //   for (int i = x-1; i <= x+1; i++) {
+      //     // System.out.println("j,i: " + j + "," + i);
+      //     if (isValidNode(j, i) ){
+      //       if (nodes[j][i]!=-1) {
+      //         openNodes.add(j*this.size + i);
+      //         System.out.println("Open: " + y + " " + x);
+      //       }
+      //     }
+      //   }
+      // }
       return openNodes;
     }
 
@@ -99,7 +116,8 @@ public class Percolation {
       int nodePosition = firstNodePosition;
       int y1 = nodePosition/this.size;
       int x1 = nodePosition%this.size;
-      System.out.println(y1 + " : " + x1);
+      // System.out.println(y1 + " : " + x1);
+      // System.out.println(nodes[y1][x1]);
 
       while (nodes[y1][x1] != nodePosition) {
         nodePosition = nodes[y1][x1];
@@ -110,6 +128,8 @@ public class Percolation {
     }
 
     public boolean connected(int firstNodePosition, int secondNodePosition){
+      if (!isOpen(firstNodePosition) || !isOpen(secondNodePosition))
+        return false;
       int firstParent = findParent(firstNodePosition);
       int secondParent = findParent(secondNodePosition);
       return firstParent == secondParent;
@@ -175,10 +195,19 @@ public class Percolation {
 
     // test client (optional)
     public static void main(String[] args) {
-      Percolation p = new Percolation(3);
+      Percolation p = new Percolation(10);
       p.open(1, 1);
       p.open(2, 1);
-      // p.open(3, 1);
+      p.open(3, 1);
+      p.open(4, 1);
+      p.open(5, 1);
+      p.open(6, 1);
+      p.open(7, 1);
+      p.open(8, 1);
+      p.open(9, 1);
+      p.open(10, 1);
       System.out.println(p.percolates());
+      System.out.println(p.numberOfOpenSites());
+      System.out.println(p.isFull(3, 3));
     }
 }
