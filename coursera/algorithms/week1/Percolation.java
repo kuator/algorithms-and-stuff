@@ -1,4 +1,5 @@
 import edu.princeton.cs.algs4.StdIn;
+import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
@@ -77,12 +78,12 @@ public class Percolation {
   }
 
   public boolean isFull(int row, int col){
+    int cellNumber = getCellNumber(row, col);
     if (!isValidCell(row, col))
       throw new IllegalArgumentException("Values are out of range");
-    if (isOpen(row, col))
+    if (!isOpen(row, col))
       return false;
-    int cellNumber = getCellNumber(row, col);
-    return wuf.find(cellNumber) == wuf.find(top);
+    return wuf.find(cellNumber) == wuf.find(top-1);
   }
 
   public int numberOfOpenSites(){
