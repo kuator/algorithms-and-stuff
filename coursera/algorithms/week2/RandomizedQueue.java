@@ -73,13 +73,13 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
   private class RandomizedQueueIterator implements Iterator<Item> {
     int current;
-    Item[] queue_;
+    Item[] queueCopy;
 
     public RandomizedQueueIterator() {
-      queue_ = (Item[]) new Object[index];
+      queueCopy = (Item[]) new Object[index];
       for (int i = 0; i < index; i++)
-        queue_[i] = queue[i];
-      StdRandom.shuffle(queue_, 0, index);
+        queueCopy[i] = queue[i];
+      StdRandom.shuffle(queueCopy, 0, index);
       current = 0;
     }
 
@@ -95,7 +95,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     public Item next() {
       if (!hasNext())
         throw new NoSuchElementException();
-      Item item = queue_[current];
+      Item item = queueCopy[current];
       current++;
       return item;
     }
