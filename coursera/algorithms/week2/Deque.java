@@ -2,15 +2,15 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class Deque<Item> implements Iterable<Item> {
-  private Node<Item> head;
-  private Node<Item> tail;
+  private Node head;
+  private Node tail;
 
-  class Node<T> {
-    public T value;
-    public Node<T> next;
-    public Node<T> previous;
+  class Node {
+    public Item value;
+    public Node next;
+    public Node previous;
 
-    public Node(T value) {
+    public Node(Item value) {
       this.value = value;
     }
   }
@@ -26,7 +26,7 @@ public class Deque<Item> implements Iterable<Item> {
     return count == 0;
   }
 
-  public Node<Item> getCurrent(){
+  public Node getCurrent(){
     return head;
   }
 
@@ -39,12 +39,12 @@ public class Deque<Item> implements Iterable<Item> {
     if (item == null) 
       throw new IllegalArgumentException();
     if (count == 0) {
-      Node<Item> node = new Node<Item>(item);
+      Node node = new Node(item);
       head = tail = node;
       count++;
       return;
     }
-    var node = new Node<Item>(item);
+    var node = new Node(item);
     node.next = head;
     head.previous = node;
     head = node;
@@ -57,12 +57,12 @@ public class Deque<Item> implements Iterable<Item> {
     if (item == null) 
       throw new IllegalArgumentException();
     if (count == 0) {
-      var node = new Node<Item>(item);
+      var node = new Node(item);
       head = tail = node;
       count++;
       return;
     }
-    var node = new Node<Item>(item);
+    var node = new Node(item);
     node.previous = tail;
     tail.next = node;
     tail = node;
@@ -71,13 +71,12 @@ public class Deque<Item> implements Iterable<Item> {
   //
   // // remove and return the item from the front
   public Item removeFirst(){
-    if (count == 1) {
-      Item item = this.head.value;
-      head = tail = null;
-      return item;
-    }
-    Item item = this.head.value;
+    if (count == 0)
+        throw new NoSuchElementException("Deque is empty");
+    Item item = head.value;
     head = head.next; 
+    if (count == 1) 
+      head = tail = null;
     count--;
     return item;
   }
@@ -86,25 +85,12 @@ public class Deque<Item> implements Iterable<Item> {
   public Item removeLast(){
     if (count == 0) 
       throw new NoSuchElementException();
-    if (count == 1) {
-      Item item = this.head.value;
-      head = tail = null;
-      return item;
-    }
     Item item = tail.value;
     tail = tail.previous; 
+    if (count == 1) 
+      head = tail = null;
     count--;
     return item;
-  }
-
-  public static void main(String[] args){
-    Deque<Integer> deque = new Deque<>();
-    deque.addLast(1);
-    System.out.println(deque.size());
-    deque.addLast(2);
-    System.out.println(deque.size());
-    deque.addFirst(3);
-    System.out.println(deque.size());
   }
 
   @Override
@@ -114,7 +100,7 @@ public class Deque<Item> implements Iterable<Item> {
   }
 
   private class DequeIterator implements Iterator<Item> {
-    Node<Item> current;  // the current element we are looking at
+    Node current;  // the current element we are looking at
 
     public DequeIterator() {
       this.current = head;
@@ -132,10 +118,79 @@ public class Deque<Item> implements Iterable<Item> {
     public Item next() {
       if (!hasNext()) 
         throw new NoSuchElementException();
-      Item item = (Item)current.value;
+      Item item = current.value;
       current = current.next;
       return item;
     }
 
+  }
+
+  public static void main(String[] args) {
+      Deque<Integer> quetack = new Deque<Integer>();
+
+      System.out.format("Size    :        %s%n", quetack.size());
+      System.out.format("Is empty:        %s%n%n", quetack.isEmpty());
+
+      System.out.println("Adding 10 elements, using addFirst");
+      for (int i = 0; i < 10; ++i)
+          quetack.addFirst(i);
+
+      System.out.format("Size    :        %s%n", quetack.size());
+      System.out.format("Is empty:        %s%n%n", quetack.isEmpty());
+
+      System.out.println("Printing Dequeue with iterator, numbers should appear from 9 to 0");
+      Deque.printIterator(quetack);
+
+      System.out.println("Printing Dequeue with removeFirst, numbers should appear from 9 to 0");
+      while (!quetack.isEmpty())
+          System.out.format("%s ", quetack.removeFirst());
+      System.out.format("%n%n");
+
+      System.out.format("Size    :        %s%n", quetack.size());
+      System.out.format("Is empty:        %s%n%n", quetack.isEmpty());
+
+      System.out.println("Adding 10 elements, using addLast");
+      for (int i = 0; i < 10; ++i)
+          quetack.addLast(i);
+
+      System.out.format("Size    :        %s%n", quetack.size());
+      System.out.format("Is empty:        %s%n%n", quetack.isEmpty());
+
+      System.out.println("Printing Dequeue with iterator, numbers should appear from 0 to 9");
+      Deque.printIterator(quetack);
+
+      System.out.println("Printing Dequeue with removeLast, numbers should appear from 9 to 0");
+      while (!quetack.isEmpty())
+          System.out.format("%s ", quetack.removeLast());
+      System.out.format("%n%n");
+
+      System.out.format("Size    :        %s%n", quetack.size());
+      System.out.format("Is empty:        %s%n%n", quetack.isEmpty());
+
+      System.out.println("Adding 1 element, using addLast");
+      quetack.addLast(0);
+
+      System.out.format("Size    :        %s%n", quetack.size());
+      System.out.format("Is empty:        %s%n%n", quetack.isEmpty());
+
+      System.out.println("Printing Dequeue with removeLast, numbers should appear to be 0");
+      System.out.format("%s ", quetack.removeLast());
+
+      System.out.format("Size    :        %s%n", quetack.size());
+      System.out.format("Is empty:        %s%n%n", quetack.isEmpty());
+
+      System.out.println("Random operations");
+      quetack.addFirst(1);
+      quetack.addFirst(2);
+      System.out.format("Should be 1 ---> %s %n", quetack.removeLast());
+      System.out.format("Is empty:        %s%n", quetack.isEmpty());
+      System.out.format("Should be 2 ---> %s %n", quetack.removeLast());
+      System.out.format("Is empty:        %s%n", quetack.isEmpty());
+  }
+
+  private static void printIterator(Deque<Integer> q) {
+      for (Integer i : q)
+          System.out.format("%s ", i);
+      System.out.format("%n%n");
   }
 }
