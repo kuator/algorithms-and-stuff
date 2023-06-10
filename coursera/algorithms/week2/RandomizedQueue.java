@@ -24,7 +24,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     return index;
   }
 
-  public void resizeQueue(){
+  private void resizeQueue(){
     if (index < queue.length) {
       return; 
     }

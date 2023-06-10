@@ -5,7 +5,7 @@ public class Deque<Item> implements Iterable<Item> {
   private Node head;
   private Node tail;
 
-  class Node {
+  private class Node {
     public Item value;
     public Node next;
     public Node previous;
@@ -26,7 +26,7 @@ public class Deque<Item> implements Iterable<Item> {
     return count == 0;
   }
 
-  public Node getCurrent(){
+  private Node getCurrent(){
     return head;
   }
 
