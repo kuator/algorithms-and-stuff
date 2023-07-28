@@ -47,18 +47,18 @@ public class FastCollinearPoints
         if (pointsCopySO[j].slopeTo(origin) == pointsCopySO[j + 1].slopeTo(origin))
         {
           count++;
+          System.out.println("===============");
+          System.out.println(origin);
+          System.out.println(lineBeginning);
+          System.out.println(pointsCopySO[j]);
+          System.out.println(pointsCopySO[j + 1]);
+          System.out.println(pointsCopySO[j].slopeTo(origin));
+          System.out.println(pointsCopySO[j + 1].slopeTo(origin));
+          System.out.println(count);
+          System.out.println("===============");
           if (count == 2)
           {
             lineBeginning = pointsCopySO[j];
-            System.out.println("===============");
-            System.out.println(origin);
-            System.out.println(lineBeginning);
-            System.out.println(pointsCopySO[j]);
-            System.out.println(pointsCopySO[j + 1]);
-            System.out.println(pointsCopySO[j].slopeTo(origin));
-            System.out.println(pointsCopySO[j + 1].slopeTo(origin));
-            System.out.println(count);
-            System.out.println("===============");
             count++;
           }
           else if (count >= 4 && j + 1 == pointsCopySO.length - 1)
