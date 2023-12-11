@@ -30,7 +30,6 @@ public class Queue {
     count++;
     Node tmp = new Node(value);
     if (this.head == null) {
-      tmp.next = tmp;
       this.head = this.tail = tmp;
       return;
     } 
